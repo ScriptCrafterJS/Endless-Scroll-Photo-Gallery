@@ -31,7 +31,7 @@ function getRandomHeight() {
 
 async function getImages() {
   try {
-    const randomPageNum = Math.trunc(Math.random() * 100 + 1);
+    const randomPageNum = Math.trunc(Math.random() * 50 + 1);
     const res = await fetch(
       `https://picsum.photos/v2/list?page=${randomPageNum}&limit=10`
     );
@@ -53,7 +53,8 @@ async function appendImages(numberOfImages) {
     const imageElement = document.createElement("img");
     imageElement.src = imageUrl;
     imageElement.classList.add("image-item");
-    imageElement.dataset.id = imageUrlData[imageUrlData.indexOf("id") + 1];
+    imageElement.setAttribute("download_url", `${images[i].download_url}`);
+    imageElement.setAttribute("author", `${images[i].author}`);
     imagesContainer.appendChild(imageElement);
   }
 }
@@ -133,19 +134,17 @@ document.addEventListener("keydown", function (e) {
 // a function that can create an image card and preview it
 let previewedImageURL = "";
 async function previewImage(e) {
-  const imageURL = e.target.src;
-  const id = await getImageID(imageURL);
-  const imageDetails = await getImageData(id);
-  previewedImageURL = imageDetails.download_url;
-  displayCard(imageURL, imageDetails);
+  displayCard(e);
   downloadButtonListener();
 }
-function displayCard(imageURL, imageDetails) {
+function displayCard(e) {
   const imgCardHTML = `
   <article class="image-card">
       <figure class="figure">
-          <img src="${imageURL}" alt="" />
-          <p class="image-card__author">Author:<br/> ${imageDetails.author}</p>
+          <img src="${e.target.src}" alt="" />
+          <p class="image-card__author">Author:<br/> ${e.target.getAttribute(
+            "author"
+          )}</p>
           <button class="image-card__download-btn">Download</button>
       </figure>
   </article>
@@ -165,7 +164,6 @@ function downloadButtonListener() {
       // fetch the image data as a blob
       const response = await fetch(previewedImageURL);
       const blob = await response.blob();
-
       //here we create a DOMString for the img url
       a.href = URL.createObjectURL(blob);
 
