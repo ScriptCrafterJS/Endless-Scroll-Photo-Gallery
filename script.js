@@ -24,28 +24,35 @@ async function getImageData(imgID) {
     console.error("Error fetching image data:", error);
   }
 }
-
 function getRandomHeight() {
   const randomIndex = Math.trunc(Math.random() * 5);
   return dimensions[randomIndex];
 }
 
-async function getImageURL() {
+async function getImages() {
   try {
-    const randomHeight = getRandomHeight();
-    const res = await fetch(`https://picsum.photos/200/${randomHeight}`);
-    return res.url;
+    // const randomHeight = getRandomHeight();
+    // const res = await fetch(`https://picsum.photos/200/${randomHeight}`);
+    const res = await fetch(`https://picsum.photos/v2/list?page=2&limit=10`);
+    const images = await res.json();
+    return images;
   } catch (error) {
     console.error(`Something went wrong: ${error}`);
   }
 }
-
 async function appendImages(numberOfImages) {
+  const images = await getImages(numberOfImages);
   for (let i = 0; i < numberOfImages; i++) {
-    const imageUrl = await getImageURL();
+    const imageUrlData = images[i].download_url.split("/");
+    const imgHeight = getRandomHeight();
+    const imgWidth = 200;
+    imageUrlData[imageUrlData.indexOf("id") + 2] = imgHeight;
+    imageUrlData[imageUrlData.indexOf("id") + 3] = imgWidth;
+    const imageUrl = imageUrlData.join("/");
     const imageElement = document.createElement("img");
     imageElement.src = imageUrl;
     imageElement.classList.add("image-item");
+    imageElement.dataset.id = imageUrlData[imageUrlData.indexOf("id") + 1];
     imagesContainer.appendChild(imageElement);
   }
 }
@@ -56,7 +63,15 @@ async function initialDisplay(numberOfImages) {
 }
 // a function to display each time the user see the last image (last element => see more!)/
 const displayInfinite = function () {
+  const options = {
+    root: null, //means the viewport
+  };
+
+  const observer = new IntersectionObserver(handleIntersection, options);
+  observer.observe(imagesContainer);
+
   async function displayDefaultAndObserve(numberOfImages) {
+    observer.unobserve(imagesContainer.lastElementChild); //!so the images wont appear two times, if going up and down.
     await appendImages(numberOfImages);
     observer.observe(imagesContainer.lastElementChild); //each time we bring new images i want to observe the last element of those new ones so i could get more
   }
@@ -69,17 +84,10 @@ const displayInfinite = function () {
       }
     });
   }
-
-  const options = {
-    root: null,
-  };
-
-  const observer = new IntersectionObserver(handleIntersection, options);
-  observer.observe(imagesContainer);
 };
 //Display some images and then keep showing
 initialDisplay(10);
-displayInfinite();
+// displayInfinite();
 //-------------------------[Handling Image Card Preview]
 //* ive forgot to undo the comments and save the end result of "infinite scrolling" part in my commit to that file, i will use Amend flag in git to do it, instead of making a whole commit for it.
 
