@@ -71,7 +71,6 @@ const displayInfinite = function () {
   observer.observe(imagesContainer);
 
   async function displayDefaultAndObserve(numberOfImages) {
-    observer.unobserve(imagesContainer.lastElementChild); //!so the images wont appear two times, if going up and down.
     await appendImages(numberOfImages);
     observer.observe(imagesContainer.lastElementChild); //each time we bring new images i want to observe the last element of those new ones so i could get more
   }
@@ -81,13 +80,14 @@ const displayInfinite = function () {
       //if we are hitting the last element with our viewport or not
       if (entry.isIntersecting) {
         displayDefaultAndObserve(5);
+        observer.unobserve(imagesContainer.lastElementChild); //!so the images wont appear two times, if going up and down.
       }
     });
   }
 };
 //Display some images and then keep showing
 initialDisplay(10);
-// displayInfinite();
+displayInfinite();
 //-------------------------[Handling Image Card Preview]
 //* ive forgot to undo the comments and save the end result of "infinite scrolling" part in my commit to that file, i will use Amend flag in git to do it, instead of making a whole commit for it.
 
