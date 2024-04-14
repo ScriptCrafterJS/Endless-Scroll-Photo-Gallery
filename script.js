@@ -41,15 +41,19 @@ async function getImages() {
     console.error(`Something went wrong: ${error}`);
   }
 }
+
+function modifiedURL(image) {
+  const imageUrlData = image.download_url.split("/");
+  const imgHeight = getRandomHeight();
+  const imgWidth = 200;
+  imageUrlData[imageUrlData.indexOf("id") + 2] = imgHeight;
+  imageUrlData[imageUrlData.indexOf("id") + 3] = imgWidth;
+  return imageUrlData.join("/");
+}
 async function appendImages(numberOfImages) {
   const images = await getImages(numberOfImages);
   for (let i = 0; i < numberOfImages; i++) {
-    const imageUrlData = images[i].download_url.split("/");
-    const imgHeight = getRandomHeight();
-    const imgWidth = 200;
-    imageUrlData[imageUrlData.indexOf("id") + 2] = imgHeight;
-    imageUrlData[imageUrlData.indexOf("id") + 3] = imgWidth;
-    const imageUrl = imageUrlData.join("/");
+    const imageUrl = modifiedURL(images[i]);
     const imageElement = document.createElement("img");
     imageElement.src = imageUrl;
     imageElement.classList.add("image-item");
@@ -134,6 +138,7 @@ document.addEventListener("keydown", function (e) {
 // a function that can create an image card and preview it
 let previewedImageURL = "";
 async function previewImage(e) {
+  previewedImageURL = e.target.getAttribute("download_url");
   displayCard(e);
   downloadButtonListener();
 }
@@ -162,6 +167,7 @@ function downloadButtonListener() {
       //start the loading...
       processLoading();
       // fetch the image data as a blob
+      console.log(previewedImageURL);
       const response = await fetch(previewedImageURL);
       const blob = await response.blob();
       //here we create a DOMString for the img url
