@@ -2,7 +2,7 @@
 const imagesContainer = document.querySelector(".images_container");
 let figure = "";
 const body = document.querySelector("body");
-const dimensions = [180, 250, 280, 320, 350];
+const dimensions = [180, 270, 320, 360, 400];
 
 //-------------------------[Handling Infinite Scrolling]
 // a function to request an image from the "picsum" API.
@@ -31,9 +31,10 @@ function getRandomHeight() {
 
 async function getImages() {
   try {
-    // const randomHeight = getRandomHeight();
-    // const res = await fetch(`https://picsum.photos/200/${randomHeight}`);
-    const res = await fetch(`https://picsum.photos/v2/list?page=2&limit=10`);
+    const randomPageNum = Math.trunc(Math.random() * 100 + 1);
+    const res = await fetch(
+      `https://picsum.photos/v2/list?page=${randomPageNum}&limit=10`
+    );
     const images = await res.json();
     return images;
   } catch (error) {
@@ -72,7 +73,10 @@ const displayInfinite = function () {
 
   async function displayDefaultAndObserve(numberOfImages) {
     await appendImages(numberOfImages);
-    observer.observe(imagesContainer.lastElementChild); //each time we bring new images i want to observe the last element of those new ones so i could get more
+    const lastElement = imagesContainer.lastElementChild;
+    if (lastElement) {
+      observer.observe(lastElement); //each time we bring new images i want to observe the last element of those new ones so i could get more
+    }
   }
 
   function handleIntersection(entries, observer) {
@@ -80,7 +84,11 @@ const displayInfinite = function () {
       //if we are hitting the last element with our viewport or not
       if (entry.isIntersecting) {
         displayDefaultAndObserve(5);
-        observer.unobserve(imagesContainer.lastElementChild); //!so the images wont appear two times, if going up and down.
+        const lastElement = imagesContainer.lastElementChild;
+        if (lastElement) {
+          //!so the images wont appear two times, if going up and down.
+          observer.unobserve(lastElement);
+        }
       }
     });
   }
