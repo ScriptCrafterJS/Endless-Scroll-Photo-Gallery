@@ -29,11 +29,11 @@ function getRandomHeight() {
   return dimensions[randomIndex];
 }
 
-async function getImages() {
+async function getImages(numberOfImages) {
   try {
     const randomPageNum = Math.trunc(Math.random() * 50 + 1);
     const res = await fetch(
-      `https://picsum.photos/v2/list?page=${randomPageNum}&limit=10`
+      `https://picsum.photos/v2/list?page=${randomPageNum}&limit=${numberOfImages}`
     );
     const images = await res.json();
     return images;
@@ -52,6 +52,7 @@ function modifiedURL(image) {
 }
 async function appendImages(numberOfImages) {
   const images = await getImages(numberOfImages);
+  let imagesCounter = 0; //to track when all the images are loaded and then go for the infinite
   for (let i = 0; i < numberOfImages; i++) {
     const imageUrl = modifiedURL(images[i]);
     const imageElement = document.createElement("img");
@@ -60,47 +61,40 @@ async function appendImages(numberOfImages) {
     imageElement.setAttribute("download_url", `${images[i].download_url}`);
     imageElement.setAttribute("author", `${images[i].author}`);
     imagesContainer.appendChild(imageElement);
+    imageElement.addEventListener("load", function () {
+      imagesCounter++;
+      if (imagesCounter === numberOfImages) {
+        console.log("All are loaded");
+        displayInfinite();
+      }
+    });
   }
 }
 
-// a function to display some images for the first time the user enters the page.
-async function initialDisplay(numberOfImages) {
-  await appendImages(numberOfImages);
-}
 // a function to display each time the user see the last image (last element => see more!)/
 const displayInfinite = function () {
   const options = {
-    root: null, //means the viewport
+    root: null, // means the viewport
   };
 
   const observer = new IntersectionObserver(handleIntersection, options);
-  observer.observe(imagesContainer);
 
-  async function displayDefaultAndObserve(numberOfImages) {
-    await appendImages(numberOfImages);
-    const lastElement = imagesContainer.lastElementChild;
-    if (lastElement) {
-      observer.observe(lastElement); //each time we bring new images i want to observe the last element of those new ones so i could get more
-    }
+  const lastImage = imagesContainer.lastElementChild;
+  if (lastImage) {
+    observer.observe(lastImage);
   }
 
   function handleIntersection(entries, observer) {
     entries.forEach((entry) => {
-      //if we are hitting the last element with our viewport or not
       if (entry.isIntersecting) {
-        displayDefaultAndObserve(5);
-        const lastElement = imagesContainer.lastElementChild;
-        if (lastElement) {
-          //!so the images wont appear two times, if going up and down.
-          observer.unobserve(lastElement);
-        }
+        observer.unobserve(entry.target); //!so the images wont appear two times, if going up and down.
+        appendImages(10); //fetch more images
       }
     });
   }
 };
 //Display some images and then keep showing
-initialDisplay(10);
-displayInfinite();
+appendImages(15);
 //-------------------------[Handling Image Card Preview]
 //* ive forgot to undo the comments and save the end result of "infinite scrolling" part in my commit to that file, i will use Amend flag in git to do it, instead of making a whole commit for it.
 
