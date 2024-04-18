@@ -23,8 +23,10 @@ The project fetches a random page of photos from the Picsum Photos API and dynam
 
 ## Installation
 1. Clone the repository:
-`git clone https://github.com/MotasemNabeelAli/Endless-Scroll-Photo-Gallery.git`
-2. Open the index.html file in your web browser.
+```bash
+git clone https://github.com/MotasemNabeelAli/Endless-Scroll-Photo-Gallery.git
+```
+3. Open the index.html file in your web browser.
 
 ## Usage
 - Scroll down to view more photos.
