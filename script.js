@@ -56,6 +56,7 @@ async function appendImages(numberOfImages) {
   for (let i = 0; i < numberOfImages; i++) {
     const imageUrl = modifiedURL(images[i]);
     const imageElement = document.createElement("img");
+    i;
     imageElement.src = imageUrl;
     imageElement.classList.add("image-item");
     imageElement.setAttribute("download_url", `${images[i].download_url}`);
@@ -64,7 +65,6 @@ async function appendImages(numberOfImages) {
     imageElement.addEventListener("load", function () {
       imagesCounter++;
       if (imagesCounter === numberOfImages) {
-        console.log("All are loaded");
         displayInfinite();
       }
     });
