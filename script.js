@@ -56,7 +56,6 @@ async function appendImages(numberOfImages) {
   for (let i = 0; i < numberOfImages; i++) {
     const imageUrl = modifiedURL(images[i]);
     const imageElement = document.createElement("img");
-    i;
     imageElement.src = imageUrl;
     imageElement.classList.add("image-item");
     imageElement.setAttribute("download_url", `${images[i].download_url}`);
