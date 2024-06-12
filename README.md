@@ -10,10 +10,10 @@ This project is a web application that displays photos fetched from the [Picsum 
 
 ## Features <img src="https://github.com/ScriptCrafterJS/Endless-Scroll-Photo-Gallery/assets/151676251/52b45c47-1ce4-4fb8-b9fc-93208a917ea7" width="40">
 
-- Infinite scrolling of photos using the fetch API and JavaScript.
+- Infinite scrolling of photos using the fetch API and JavaScript .
 - Grid system for displaying photos with CSS.
 - Responsive design for all devices.
-- Modal for viewing photos in full screen with author's name.
+- Modal for viewing photos with author's name.
 - Download button to download photos to your PC.
 - No CSS framework or jQuery used.
 
