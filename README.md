@@ -4,7 +4,7 @@ This project is a web application that displays photos fetched from the [Picsum 
 
 ## Screenshots
 
-![infinite scroll preview](https://github.com/ScriptCrafterJS/Endless-Scroll-Photo-Gallery/assets/97013908/8864fe7b-b02b-4fbb-ac9f-e6b31cd8bcbf)
+![image](https://github.com/user-attachments/assets/aafb99b9-f35d-422f-ad96-086489ca3b38)
 
 ## Features <img src="https://github.com/ScriptCrafterJS/Endless-Scroll-Photo-Gallery/assets/151676251/52b45c47-1ce4-4fb8-b9fc-93208a917ea7" width="40">
 
@@ -15,9 +15,9 @@ This project is a web application that displays photos fetched from the [Picsum 
 - Download button to download photos to your PC.
 - No CSS framework or jQuery used.
 
-![infinite scroll image press , download button preview](https://github.com/ScriptCrafterJS/Endless-Scroll-Photo-Gallery/assets/97013908/8fb7cd64-8340-41c7-ac0f-a62175c97fe6)
+![image](https://github.com/user-attachments/assets/6b3ccdec-0a5d-4c41-a564-665a2788ec9c)
 
-![infinite scroll image press preview](https://github.com/ScriptCrafterJS/Endless-Scroll-Photo-Gallery/assets/97013908/d54599c7-d18f-47b7-b20f-8cdccb88ac91)
+![image](https://github.com/user-attachments/assets/2c4e0f08-d550-48bf-a209-44e15542fd31)
 
 ## Implementation <img src="https://github.com/ScriptCrafterJS/Endless-Scroll-Photo-Gallery/assets/151676251/4802b065-faef-4f41-a75f-d09f798256ed" width="40">
 
