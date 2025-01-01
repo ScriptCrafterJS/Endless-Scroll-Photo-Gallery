@@ -1,6 +1,6 @@
 # Infinite Scrolling Photo Gallery
 
-This project is a web application that displays photos fetched from the [Picsum Photos API](https://picsum.photos/) using infinite scrolling. It features a grid layout for displaying photos, responsiveness for all devices, and a modal for viewing photos in full screen with the author's name and a download button.
+This project [(See it Live)](https://scriptcrafterjs.github.io/Endless-Scroll-Photo-Gallery/) is a web application that displays photos fetched from the [Picsum Photos API](https://picsum.photos/) using infinite scrolling. It features a grid layout for displaying photos, responsiveness for all devices, and a modal for viewing photos in full screen with the author's name and a download button.
 
 ## Screenshots
 
